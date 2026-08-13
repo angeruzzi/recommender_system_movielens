@@ -693,3 +693,22 @@ def validate_framework():
     assert summary["n_users"] == 3
 
     return True
+
+def add_model_result(
+    results_df,
+    model_name,
+    summary,
+    k=10
+):
+    new_row = pd.DataFrame([{
+        "model": model_name,
+        f"Precision@{k}": summary[f"Precision@{k}"],
+        f"Recall@{k}": summary[f"Recall@{k}"],
+        f"NDCG@{k}": summary[f"NDCG@{k}"],
+        "n_users": summary["n_users"]
+    }])
+
+    return pd.concat(
+        [results_df, new_row],
+        ignore_index=True
+    )
